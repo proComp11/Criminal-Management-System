@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criminal Record System | Dashboard</title>
+     <!-- Font Awesome -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet"/>
+     <!-- Google Fonts -->
+     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet"/>
+     <!-- MDB -->
+     <link href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.css" rel="stylesheet"/>
+     <!-- MDB -->
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.2.0/mdb.min.js"></script>
+     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
+     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</head>
+<body>
+    <!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container-fluid">
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <!-- Navbar brand -->
+        <a class="navbar-brand mt-2 mt-lg-0" href="#">
+          <img
+            src="{{url_for('static', filename='images/logo.png')}}"
+            height="25"
+            alt="Criminal Record System"
+            loading="lazy"
+          />
+        </a>
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="{{ url_for('home')}}">Dashboard</a>
+          </li>
+        </ul>
+        <!-- Left links -->
+      </div>
+      <!-- Collapsible wrapper -->
+  
+      <!-- Right elements -->
+      <div class="d-flex align-items-center">
+        <!-- Icon -->
+        <a class="text-reset me-3" href="#">
+        </a>
+  
+        <!-- Notifications -->
+        <div class="dropdown">
+          
+        </div>
+        <!-- Avatar -->
+        <div class="dropdown">
+          <a
+            class="dropdown-toggle d-flex align-items-center hidden-arrow"
+            href="#"
+            id="navbarDropdownMenuAvatar"
+            role="button"
+            data-mdb-toggle="dropdown"
+            aria-expanded="false"
+          >
+            <img
+              src="https://mdbcdn.b-cdn.net/img/new/avatars/2.webp"
+              class="rounded-circle"
+              height="25"
+              alt="Black and White Portrait of a Man"
+              loading="lazy"
+            />
+          </a>
+          <ul
+            class="dropdown-menu dropdown-menu-end"
+            aria-labelledby="navbarDropdownMenuAvatar"
+          >
+            <li>
+              <a class="dropdown-item" href="#">My profile</a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- Right elements -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+  <div class="container">
+    <header>
+        {% block header %}{% endblock %}
+    </header>
+    {% block content %}{% endblock %}
+  </div>
+</body>
+</html>
+<script src="https://code.jquery.com/jquery-3.7.0.min.js"></script>
+<script type="text/javascript">
+
+  $(function(){
+    fetchData();
+
+    $('#stBtn').on('click',function(){
+      let name = $('#name').val();
+      let add = $('#addr').val();
+      let rank = $('#ranks').val();
+      let pid = $('#pid').val();
+      let psName = $('#psname').val();
+      let ph = $('#phones').val();
+      if(name == '' || add == '' || rank == '' || ph == '' || pid == '' || psName == ''){
+        document.getElementById('err').style.display = "block";
+        $("#err").html("ALL FIELDS ARE REQUIRED");
+      }else{
+        $.ajax({
+          type:"POST",
+          url:"/addStaff",
+          data:{
+            name:name,
+            address:add,
+            rank:rank,
+            p_id:pid,
+            psName:psName,
+            phone:ph
+          },  
+          success:function(data){
+            console.log(data);
+            data = JSON.parse(data);
+            if(data.code == '1'){
+              document.getElementById('succ').style.display = "block";
+              $("#succ").html(data.status);
+              $('#psForm')[0].reset();
+            }
+          },
+          error:function(err){
+              console.log(err);
+          }
+        });
+      }
+    });
+    
+    function fetchData(){
+      let cuurRow  = 0;
+      $.ajax({
+        type:"POST",
+        url:"/fetchData",
+        success:function(data){
+          data = JSON.parse(data);
+          if(data.code == '1'){
+            $('#psrec').html("");
+            if(data.result.length > 0){
+              for(let i = 0 ; i < data.result.length; i++ ){
+                $('#psrec').append('<tr><td>'+ (i+1) +'</td><td>'+data.result[i].ps_name+'</td><td>'+data.result[i].ps_code+'</td><td>'+data.result[i].ps_address+'</td><td>'+data.result[i].ps_phone+'</td><td><i class="fa fa-edit" style="color:green; font-size:15px;" onclick="editData('+data.result[i].id+')"></i> | <i class="fa fa-trash" style="color:red; font-size:15px;" id="" onclick="deleteDataById('+data.result[i].id+')"></i></td></tr>');
+              } 
+            }else{
+              $('#psrec').append('<tr align="center"><td colspan="6">NO RECORD FOUND</td></tr>');
+            }
+          }
+        },
+        error:function(err){
+          console.log(err);
+        }
+      });
+    }
+
+    $('#psBtn').on('click',function(){
+      let pname = $('#psname').val();
+      let pscode = $('#pscode').val();
+      let paddress = $('#address').val();
+      let pphone = $ ('#phone').val();
+      console.log(pname+pscode+paddress+pphone);
+      if(pname == '' || paddress == '' || pphone == ''){
+        document.getElementById('err').style.display = "block";
+        $("#err").html("ALL FIELDS ARE REQUIRED");  
+      }else{
+        $.ajax({
+          type:"POST",
+          url:"/addpsInfo",
+          data:{
+            psname:pname,
+            pscode:pscode,
+            psadd: paddress,
+            psphone:pphone
+          },
+          success:function(data){
+            data = JSON.parse(data);
+            if(data.code == '1'){
+              document.getElementById('succ').style.display = "block";
+              $("#succ").html(data.status);
+              $('#psForm')[0].reset();
+              fetchData();
+            }
+          },
+          error:function(err){
+            console.log(err);
+          }
+        });
+      }
+    });
+
+    $("#show").on('click', function(){
+      document.getElementById('addinfo').style.display = "none";
+      document.getElementById('showInfo').style.display = "block";
+    });
+
+    $("#add").on('click', function(){
+      document.getElementById('addinfo').style.display = "block";
+      document.getElementById('showInfo').style.display = "none";
+    });
+
+    $('#showps').on('click', function(){
+      document.getElementById('showPsSec').style.display = "block";
+      document.getElementById('addPsSec').style.display = "none";
+    });
+
+    $('#addPs').on('click', function(){
+      document.getElementById('showPsSec').style.display = "none";
+      document.getElementById('addPsSec').style.display = "block"; 
+    });
+
+    document.querySelectorAll('.form-outline').forEach((formOutline) => {
+      new mdb.Input(formOutline).update();
+    });
+  });  
+
+  function editData(id){
+    $.ajax({
+      type:"POST",
+      url:"/fetchrecordbyid",
+      data:{
+        id:id
+      },
+      success:function(data){
+        console.log(data);
+        data= JSON.parse(data);
+        if(data.code == '1'){
+          $('#pname').val(data.result.ps_name);
+          $('#pcode').val(data.result.ps_code);
+          $('#padd').val(data.result.ps_address);
+          $('#psph').val(data.result.ps_phone);
+          $('#id').val(id);
+          $('#editForm').modal('show');
+        }
+      },
+      error:function(err){
+        cosnole.log(err);
+      }
+    });
+    
+  }
+
+  function deleteDataById(id){
+    Swal.fire({
+      title: 'Are you sure?',
+      text: "You won't be able to revert this!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          type:"POST",
+          url:"/deletebyid",
+          data:{
+            id:id
+          },
+          success:function(data){
+            console.log(data);
+            data = JSON.parse(data);
+            if(data.code == '1'){
+              Swal.fire('Deleted!',data.status,'success')
+            }else{
+              swal("Oops!", "Something went wrong, you should choose again!", "error");
+            }
+          },
+          error:function(err){
+            console.log(err);
+          }
+        });
+      }
+    })
+    fetchData();
+  }
+
+  // edit ps information code 
+  $("#editpsInfo").on('click', ()=>{
+    let name = $('#pname').val();
+    let code = $('#pcode').val();
+    let add = $('#padd').val();
+    let ph = $('#psph').val();
+    let p_id = $('#id').val();
+    $.ajax({
+      type:"POST",
+      url:"/updatepsinfo",
+      data:{
+        p_name:name,
+        p_code: code,
+        p_add:add,
+        p_ph: ph,
+        p_id: p_id
+      },
+      success:function(data){
+        console.log(data);
+        data = JSON.parse(data);
+        if(data.code == '1'){
+          $('#succ').html('<span class="alert aler-success">"'+data.status+'"</span>');
+          swal("Good job!", data.status, "success");  
+          fetchData();
+        }else{
+          swal("Oops!", "Something went wrong, you should choose again!", "error");  
+        }
+      },
+      error:function(err){
+        console.log(err);
+      }
+    });
+  });
+
+</script>

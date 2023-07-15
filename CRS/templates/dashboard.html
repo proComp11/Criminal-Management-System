@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% block header %}
+  <div class="row mt-5"><h3>{% block title %}Dashboard{% endblock %}</h3></div>
+{% endblock %}
+{% block content %}
+<div class="row mt-5">
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body text-center">
+              <a href="{{ url_for('police')}}">
+                <img src="{{url_for('static', filename='images/policestation.png') }}" height="150px;" width="150px;">
+                <p class="card-text text-center">Police Station</p>
+              </a>
+            </div>
+        </div>
+      </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body text-center">
+              <a href="{{ url_for('openCrime')}}">
+                <img src="{{url_for('static', filename='images/police.png') }}" height="150px;" width="150px;">
+                <p class="card-text text-center">Police</p>
+              </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body text-center">
+            <a href="{{ url_for('showCategory')}}">
+              <img src="{{url_for('static', filename='images/crimecate.png') }}" height="150px;" width="150px;">
+              <p class="card-text text-center">Crime Category</p>
+            </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body text-center">
+              <a href="{{url_for('criminalPersons')}}">
+              <img src="{{url_for('static', filename='images/criminal.png') }}" height="150px;" width="150px;">
+              <p class="card-text text-center">Criminal</p>
+              </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row mt-5">
+  <div class="col-sm-3">
+      <div class="card">
+          <div class="card-body text-center">
+            <a href="{{ url_for('police')}}">
+              <img src="{{url_for('static', filename='images/fir.png') }}" height="150px;" width="150px;">
+              <p class="card-text text-center">FIR</p>
+            </a>
+          </div>
+      </div>
+    </div>
+  <div class="col-sm-3">
+      <div class="card">
+          <div class="card-body text-center">
+            <a href="{{ url_for('report')}}">
+              <img src="{{url_for('static', filename='images/report.png') }}" height="150px;" width="150px;">
+              <p class="card-text text-center">Report</p>
+            </a>
+          </div>
+      </div>
+  </div>
+  <div class="col-sm-3">
+      <div class="card">
+          <div class="card-body text-center">
+          <a href="{{url_for('search')}}">
+            <img src="{{url_for('static', filename='images/search.png') }}" height="150px;" width="150px;">
+            <p class="card-text text-center">Search</p>
+          </a>
+          </div>
+      </div>
+  </div>
+</div>
+{% endblock %}

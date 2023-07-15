@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% block header %}
+  <div class="row mt-5">
+{% block title %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('home')}}">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Search Criminal</li>
+    </ol>
+</nav>
+{% endblock %}
+</div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div col-sm-6>
+            <button class="btn btn-sm btn-warning" id="add">Add</button>
+            <button class="btn btn-sm btn-info" id="show">Show</button>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-sm-6">
+            <span id="err" class="alert alert-danger text-center" style="display:none;"></span>
+            <span id="succ" class="alert alert-success text-center" style="display:none;"></span>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-6" id="addinfo">
+            <div class="card">
+                <div class="card-header text-center text-dark bg-info">
+                    Search Criminal 
+                </div>
+                <div class="card-body">
+                    
+                    <form id="psForm">
+                        <div class="form-outline mb-4">
+                            <input type="text" name="name" id="cname" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Enter Criminal Name</label>
+                        </div>
+                        <button type="button" id="stBtn" class="btn btn-primary btn-block mb-2">Search</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" id="showInfo" style="display:none;">
+            <div class="card">
+                <div class="card-header bg-success text-dark text-center">
+                    Crime Category List
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>NAME</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

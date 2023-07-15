@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block header %}
+  <div class="row mt-5">
+{% block title %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('home')}}">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Police Staff</li>
+    </ol>
+</nav>
+{% endblock %}
+</div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div col-sm-6>
+            <button class="btn btn-sm btn-warning" id="add">Add</button>
+            <button class="btn btn-sm btn-info" id="show">Show</button>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-sm-6">
+            <span id="err" class="alert alert-danger text-center" style="display:none;"></span>
+            <span id="succ" class="alert alert-success text-center" style="display:none;"></span>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-sm-6" id="addinfo">
+            <div class="card">
+                <div class="card-header text-center text-dark bg-info">
+                    Police Staff Info
+                </div>
+                <div class="card-body">
+                    
+                    <form id="psForm">
+                        <div class="form-outline mb-4">
+                            <input type="text" name="name" id="name" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Full Name</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" name="add" id="addr" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Address</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" name="rank" id="ranks" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Desgination/Rank</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" name="pid" id="pid" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Police Id</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" name="psname" id="psname" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Police Station</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" name="phone" id="phones" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Phone</label>
+                        </div>
+                        <button type="button" id="stBtn" class="btn btn-primary btn-block mb-2">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" id="showInfo" style="display:none;">
+            <div class="card">
+                <div class="card-header bg-success text-dark text-center">
+                    Police Staff Information
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>NAME</th>
+                            <th>ADDRESS</th>
+                            <th>DESIGNATION/RANK</th>
+                            <th>POLICE ID</th>
+                            <th>POLICE STATION NAME</th>
+                            <th>ACTION</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

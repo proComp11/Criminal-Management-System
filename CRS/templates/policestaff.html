@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block header %}
+  <div class="row mt-5">
+{% block title %}
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('home')}}">Dashboard</a></li>
+        <li class="breadcrumb-item active" aria-current="page">Police</li>
+    </ol>
+</nav>
+{% endblock %}
+</div>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-sm-6">
+            <button class="btn btn-sm btn-success" id="addPs">Add</button>
+            <button class="btn btn-sm btn-info" id="showps">Show</button>
+        </div>
+    </div>
+    <div class="row justify-content-center mt-5">
+        <div class="col-sm-6" id="addPsSec">
+            <span id="err" class="alert alert-danger text-center" style="display:none;"></span>
+            <span id="succ" class="alert alert-success text-center" style="display:none;"></span>
+            <div class="card">
+                <div class="card-header text-center bg-info">
+                    Add Police Station
+                </div>
+                <div class="card-body">
+                    <form id="psForm" action="" method="POST">  
+                        <div class="form-outline mb-4">
+                            <input type="text" name="psname" id="psname" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Police Station Name</label>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" name="psname" id="pscode" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Police Station Code</label>
+                        </div>
+                        <!-- Text input -->
+                        <div class="form-outline mb-4">
+                            <input type="text" name="address" id="address" class="form-control" required/>
+                            <label class="form-label" for="form6Example4">Address</label>
+                        </div>
+                        <!-- Number input -->
+                        <div class="form-outline mb-4">
+                            <input type="text" name="phone" id="phone" class="form-control"  required/>
+                            <label class="form-label" for="form6Example6">Phone</label>
+                        </div>
+                        <!-- Submit button -->
+                        <button type="button" id="psBtn" class="btn btn-primary btn-block mb-2">Submit</button>
+                      </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-sm-6" id="showPsSec" style="display:none;">
+            <table class="table">
+                <thead class="table-success">
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Code</th>
+                        <th>Address</th>
+                        <th>Phone</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="psrec">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="modal fade" id="editForm" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="staticBackdropLabel">Edit Police Station</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row justify-content-center">
+                    <div class="col-sm-6">
+                        <div id="succ"></div>
+                        <form>
+                            <div class="form-outline mb-4">
+                                <input type="text" name="pname" id="pname" class="form-control" required/>
+                                <label class="form-label" for="form6Example4">Police Station Name</label>
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" name="pcode" id="pcode" class="form-control" required/>
+                                <label class="form-label" for="form6Example4">Police Station Code</label>
+                            </div>
+                            <!-- Text input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" name="add" id="padd" class="form-control" required/>
+                                <label class="form-label" for="form6Example4">Address</label>
+                            </div>
+                            <!-- Number input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" name="psph" id="psph" class="form-control"  required/>
+                                <label class="form-label" for="form6Example6">Phone</label>
+                                <input type="hidden" id="id" value="" />
+                            </div>
+                            <div>
+                                <button class="btn btn-sm btn-warning" id="editpsInfo">update</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+    </div>
+{% endblock %}
